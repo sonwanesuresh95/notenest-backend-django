@@ -18,10 +18,16 @@ from django.contrib import admin
 from django.urls import path, include
 from . import settings
 from django.conf.urls.static import static
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('notes.urls'))
+    path('api/', include('notes.urls')),
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.authtoken')),
+    path('auth/jwt/create/', TokenObtainPairView.as_view(), name='jwt-create'),
+    path('auth/jwt/refresh/', TokenRefreshView.as_view(), name='jwt-refresh'),
+    path('auth/jwt/verify/', TokenVerifyView.as_view(), name='jwt-verify')
 ]
 
 if settings.DEBUG:

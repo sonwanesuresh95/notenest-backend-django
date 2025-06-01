@@ -1,139 +1,71 @@
-# NoteNest - Django Backend (Feature 3: Token Authentication)
+# NoteNest - Notes App (Django REST API)
 
-A simple collaborative notes app backend built using Django REST Framework.
+NoteNest is a backend RESTful API for a collaborative note-taking app built using Django and Django REST Framework.
 
-This project implements essential backend features one-by-one. Current feature status:
+## Features Implemented
 
-## ✅ Implemented Features
+- User Registration and Login (JWT authentication)
+- Create, Read, Update, Delete (CRUD) for Notes
+- Notes linked to their respective users
+- Private note access (users can only access their own notes)
+- Project containerized using Docker
 
-1. CRUD with all HTTP methods  
-2. Database integration with PostgreSQL  
-3. Authentication: Token Authentication (DRF built-in)
-
----
-
-## 🔧 Tech Stack
-
-- Python 3  
-- Django 4  
-- Django REST Framework  
-- PostgreSQL  
-- Docker & Docker Compose
-
----
-
-## 🚀 Getting Started
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/your-username/notenest-django.git
-cd notenest-django
-```
-
-### 2. Build and start containers
-
-```bash
-sudo docker compose up --build
-```
-
-### 3. Run migrations and create superuser
-
-```bash
-sudo docker compose exec web python manage.py migrate
-sudo docker compose exec web python manage.py createsuperuser
-```
-
----
-
-## 🗃️ API Overview
-
-### Base URL
-
-```
-http://localhost:8000/api/
-```
-
----
-
-## 🔐 Authentication - Token Auth (DRF)
-
-### Step 1: Obtain Token
-
-**POST** to `/api/token-auth/` with:
-
-```json
-{
-  "username": "your_superuser",
-  "password": "your_password"
-}
-```
-
-### Response:
-
-```json
-{
-  "token": "abc123..."
-}
-```
-
----
-
-### Step 2: Use Token for Authenticated Requests
-
-Add the following header to any API request:
-
-```
-Authorization: Token your_token_here
-```
-
----
-
-### Example CRUD Endpoints (Authenticated)
-
-| Method | Endpoint            | Description        |
-|--------|---------------------|--------------------|
-| GET    | `/api/notes/`       | List all notes     |
-| POST   | `/api/notes/`       | Create a new note  |
-| GET    | `/api/notes/<id>/`  | Get a single note  |
-| PUT    | `/api/notes/<id>/`  | Update a note      |
-| PATCH  | `/api/notes/<id>/`  | Partially update   |
-| DELETE | `/api/notes/<id>/`  | Delete a note      |
-
-> All above endpoints require authentication.
-
----
-
-## 🧪 Testing
-
-Access browsable DRF API:  
-[http://localhost:8000/api/](http://localhost:8000/api/)
-
-Use Hoppscotch or Postman to test authenticated endpoints with `Authorization: Token <your_token>`.
-
----
-
-## 📂 Folder Structure (Simplified)
+## Project Structure
 
 ```
 notenest/
-├── notes/               # App with models, views, serializers
-├── notenest/            # Project settings and root urls
+├── config/              # Django project settings
+├── notes/               # Notes app with models, views, serializers, etc.
 ├── manage.py
 ├── requirements.txt
-├── docker-compose.yml
 ├── Dockerfile
+├── docker-compose.yml
+└── README.txt
 ```
 
+## Tech Stack
+
+- Python 3.11
+- Django 5.2
+- Django REST Framework
+- Simple JWT (via djoser)
+- PostgreSQL (via Docker Compose)
+- Gunicorn (for production)
+- Docker
+
+## Setup Instructions
+
+### Prerequisites
+
+- Docker & Docker Compose installed
+
+### Running the App Locally
+
+```bash
+# Build and run the containers
+docker-compose up --build
+
+# The app will be available at http://localhost:8000/
+```
+
+### Running Migrations
+
+```bash
+docker-compose exec web python manage.py migrate
+```
+
+### Creating a Superuser
+
+```bash
+docker-compose exec web python manage.py createsuperuser
+```
+
+## API Endpoints (Sample)
+
+- `/api/auth/users/` – Register
+- `/api/auth/jwt/create/` – Login
+- `/api/auth/jwt/refresh/` – Token refresh
+- `/api/notes/` – List/Create notes (authenticated)
+- `/api/notes/<id>/` – Retrieve/Update/Delete individual note
+
 ---
-
-## 🧱 Next Feature
-
-- JSON Web Token (JWT) Authentication  
-- OAuth2 (Google/GitHub login)
-
----
-
-## 📜 License
-
-MIT License
